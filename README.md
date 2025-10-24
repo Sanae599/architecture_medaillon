@@ -77,17 +77,17 @@ projet/
 
 * Données  **nettoyées, validées et partitionnées**
 * Vérifications automatiques via **Great Expectations** (unicité, nulls, cohérence)
-* Partitionnement des relations (`edges`) en plusieurs shards pour la performance
+* Partitionnement des relations (edges) en plusieurs shards pour la performance
 
 ### Couche Gold
 
-* Données **prêtes pour la consommation** et  **intégrées dans Neo4j** 
-* Transformation des colonnes au format attendu par Neo4j (`id:ID`, `:START_ID`, etc.)
+* Données **prêtes pour la consommation** et  **intégrées dans Neo4j**
+* Transformation des colonnes au format attendu par Neo4j (id:ID,:START_ID ...)
 * Cette couche est utilisée pour la **visualisation** et l’interrogation via l’API
 
 ## Orchestration avec Airflow
 
-L’orchestration repose sur un **DAG** défini dans `dags/ingest_kg.py`
+L’orchestration repose sur un **DAG** défini dans dags/ingest_kg.py 
 
 Les tâches principales sont :
 
@@ -124,12 +124,12 @@ L’API permet de dialoguer avec la base Neo4j
 
 À ce stade, seule une route de test est opérationnelle :
 
-* `GET /health` : vérifie l’état de l’API
+* GET/health: vérifie l’état de l’API
 
 Routes prévues pour la suite :
 
-* `POST /query/cypher` : exécution d’une requête Cypher
-* `GET /entity/{id}` : récupération d’un nœud et de ses voisins
+* POST /query/cypher : exécution d’une requête Cypher
+* GET /entity/{id} :récupération d’un nœud et de ses voisins
 
 ## À venir
 
@@ -141,7 +141,7 @@ Routes prévues pour la suite :
 
 ### API
 
-* Implémentation des endpoints `POST /query/cypher` et `GET /entity/{id}`
+* Implémentation des endpoints POST /query/cypher et GET /entity{id}
 * Gestion des erreurs et des statuts HTTP
 * Documentation interactive via Swagger
 
