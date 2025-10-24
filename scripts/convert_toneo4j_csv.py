@@ -2,18 +2,18 @@ import pandas as pd
 import os
 from pathlib import Path
 
-silver_dir = Path("data/silver")
-edges_dir = silver_dir / "edges"
-gold_dir = Path("data/gold")
+silver_chemin = Path("data/silver")
+edges_chemin = silver_chemin / "edges"
+gold_chemin = Path("data/gold")
 
-os.makedirs(gold_dir, exist_ok=True)
+os.makedirs(gold_chemin, exist_ok=True)
 
 #lecture du fichier nodes.parquet
-nodes = pd.read_parquet(silver_dir / "nodes.parquet")
+nodes = pd.read_parquet(silver_chemin / "nodes.parquet")
 
 #lecture de tous les fichiers edges.parquet dans les shards
 edges_list = []
-for shard_dir in edges_dir.glob("shard=*"):
+for shard_dir in edges_chemin.glob("shard=*"):
     edges_path = shard_dir / "edges.parquet"
     if edges_path.exists():
         edges_list.append(pd.read_parquet(edges_path))
@@ -33,5 +33,5 @@ edges = edges.rename(columns={
     "type": "type"
 })
 
-nodes.to_csv(gold_dir / "nodes_neo4j.csv", index=False)
-edges.to_csv(gold_dir / "edges_neo4j.csv", index=False)
+nodes.to_csv(gold_chemin / "nodes_neo4j.csv", index=False)
+edges.to_csv(gold_chemin / "edges_neo4j.csv", index=False)

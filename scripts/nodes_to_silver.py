@@ -2,11 +2,11 @@ import os
 import shutil
 from pathlib import Path
 
-BRONZE_DIR = Path("data/bronze")
-SILVER_DIR = Path("data/silver")
+bronze_chemin = Path("data/bronze")
+silver_chemin = Path("data/silver")
 
-src_file = BRONZE_DIR / "nodes.parquet"
-dst_file = SILVER_DIR / "nodes.parquet"
+src_file = bronze_chemin / "nodes.parquet"
+dst_file = silver_chemin / "nodes.parquet"
 
-#copier le fichier et colle fichier dans le dosier silver
+#copier le fichier et le colle dans le dosier silver à l'identique
 shutil.copy2(src_file, dst_file)
