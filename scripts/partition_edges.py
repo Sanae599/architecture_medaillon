@@ -1,29 +1,29 @@
 import pandas as pd
 import numpy as np
 import os
+from pathlib import Path
 
-BRONZE_DIR = "data/bronze"
-SILVER_DIR = "data/silver"
-
-os.makedirs(SILVER_DIR, exist_ok=True)
+BRONZE_DIR = Path("data/bronze")
+SILVER_DIR = Path("data/silver") / "edges"  
 
 NUM_SHARDS = 8
 
 print(f" Partitionnement des edges en {NUM_SHARDS} shards")
 
-edges = pd.read_parquet(os.path.join(BRONZE_DIR, "edges.parquet"))
+#charger les edges depuis le bronze
+edges_path = BRONZE_DIR / "edges.parquet"
+edges = pd.read_parquet(edges_path)
 
-# Attribution aléatoire d’un shard à chaque edge
+#attribution aléatoire d’un shard à chaque edge avec faker
 edges["shard"] = np.random.randint(0, NUM_SHARDS, len(edges))
 
+#création des shards
 for shard_id in range(NUM_SHARDS):
-    shard_dir = os.path.join(SILVER_DIR, f"shard={shard_id}")
-    os.makedirs(shard_dir, exist_ok=True)
+    shard_dir = SILVER_DIR / f"shard={shard_id}"
+    shard_dir.mkdir(parents=True, exist_ok=True)
 
     shard_df = edges[edges["shard"] == shard_id].drop(columns=["shard"])
-    shard_path = os.path.join(shard_dir, "edges.parquet")
+    shard_path = shard_dir / "edges.parquet"
     shard_df.to_parquet(shard_path, index=False)
 
-    print(f" Shard {shard_id} : {len(shard_df)} lignes sauvegardées")
-
-print("\nPartitionnement terminé. Les shards sont disponibles dans 'data/silver/'.")
+    print(f" Shard {shard_id} : {len(shard_df)} lignes bien sauvegardées")

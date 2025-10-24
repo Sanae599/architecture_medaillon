@@ -16,8 +16,6 @@ for file in os.listdir(RAW_DIR):
         print(f" Lecture : {csv_path}")
         df = pd.read_csv(csv_path)
 
-        # Sauvegarde au format Parquet (compression algo Snappy)
-        df.to_parquet(parquet_path, index=False) # Bibliotheqe pyarrrow de pandas 
+        #sauvegarde au format Parquet (compression algo Snappy)
+        df.to_parquet(parquet_path, index=False) #bibliotheqe pyarrrow de pandas 
         print(f"  Écrit : {parquet_path}")
-
-print("\n Conversion ok. Les fichiers sont dans 'data/bronze/'.")
