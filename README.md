@@ -20,6 +20,8 @@ Le but est de créer une chaîne de traitement modulaire et traçable pour la do
 
 ## Architecture du projet
 
+
+```
 projet/
 ├── docker-compose.yaml
 ├── .env
@@ -53,6 +55,9 @@ projet/
     ├── neo4j_graph_exemple.png
     ├── neo4j_graph_limit.png
     └── pipeline_airflow.png
+
+```
+
 
 ## Stack Technique
 
