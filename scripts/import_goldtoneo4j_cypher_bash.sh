@@ -1,7 +1,7 @@
 #!/bin/bash
-set -ex
-echo "Import des données dans le conteneur Neo4j existant"
-docker exec neo4j_medaillon \
+echo supp volumes containers
+docker compose down -v
+docker compose run --rm -e NEO4J_AUTH=none neo4j \
   neo4j-admin database import full \
   --overwrite-destination=true \
   --id-type=integer \
@@ -9,4 +9,4 @@ docker exec neo4j_medaillon \
   --relationships=REL=/import/edges_neo4j.csv \
   -- \
   neo4j
-
+  
