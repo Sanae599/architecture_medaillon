@@ -205,3 +205,36 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+#Environnement et IDE
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+.env
+.venv/
+.vscode/
+.idea/
+
+#Données
+data/
+
+# Ignorer complètement les bases et fichiers Neo4j
+data/neo4j/
+data/databases/
+data/databases/neo4j/
+data/databases/system/
+data/transactions/
+data/logs/
+data/dbms/
+
+
+#Conserver les dossiers vides pour la structure
+!data/**/
+!data/.gitkeep
+
+#Fichiers de build / cache
+*.egg-info/
+dist/
+build/

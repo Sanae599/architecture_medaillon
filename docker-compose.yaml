@@ -1,0 +1,55 @@
+services:
+  neo4j:
+    image: neo4j:5-community
+    container_name: neo4j_architmedaillon
+    environment:
+      NEO4J_apoc_export_file_enabled: "true"
+      NEO4J_apoc_import_file_enabled: "true"
+      NEO4J_server_memory_heap_max__size: 2g
+      NEO4J_server_memory_pagecache_size: 3g
+      NEO4J_dbms_security_auth__enabled: "false"
+    volumes:
+      - ./neo4j/data:/data
+      - ./data/gold:/import
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+  airflow:
+    build: .
+    container_name: airflow_architmedaillon
+    restart: always
+    user: "0:0"
+    ports:
+      - "8080:8080"
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__LOAD_EXAMPLES=True
+      - AIRFLOW__CORE__AUTH_MANAGER=airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./quality:/opt/airflow/quality
+      - ./data:/opt/airflow/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./Makefile:/opt/airflow/Makefile
+      - ./data/gold:/var/lib/neo4j/import
+    command: >
+      bash -c "
+        airflow db migrate &&
+        airflow standalone
+      "
+    depends_on:
+      - neo4j
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: fastapi__architmedaillon
+    volumes:
+      - ./api:/opt/airflow/api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - neo4j
+      
